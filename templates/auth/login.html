@@ -1,0 +1,26 @@
+{{define "content"}}
+<h2>Log In</h2>
+{{if not .success}}
+<h4 style="color: #ff731e; font-weight: bold;">Login failed, username or password error or you have not confirmed your email</h4>
+{{end}}
+<p style="color: #ff731e; font-weight: bold;"></p>
+<form action="/auth/login/" method="post">
+    <div class="form-group">
+        <label for="id">Username:</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter Username">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter password">
+    </div>
+    <div class="checkbox">
+        <label><input type="checkbox"> Remember me</label>
+    </div>
+    <button type="submit" class="btn btn-success">Login</button>
+    <hr>
+    <p>Or</p>
+    <div><a href="/auth/signup">Create an account</a></div>
+    <div><a href="/auth/recovery/">Forgot password?</a></div>
+
+</form>
+{{end}}

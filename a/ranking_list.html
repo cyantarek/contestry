@@ -1,0 +1,29 @@
+{% extends 'contest/base.html' %}
+
+{% block content %}
+
+<h2 align="center">Ranking</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sl</th>
+                <th>Name</th>
+                <th>Point</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ u.first_name }} {{ u.last_name }}</td>
+                <td>{{ u.point }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

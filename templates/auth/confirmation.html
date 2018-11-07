@@ -1,0 +1,9 @@
+{{define "content"}}
+<h2>Confirmation</h2>
+<p style="color: #ff731e; font-weight: bold;"></p>
+{{if .success}}
+<h4>Thanks for the confirmation. You can <a href="/auth/login">login</a> now</h4>
+{{else}}
+<h4>Invalid or used token</h4>
+{{end}}
+{{end}}

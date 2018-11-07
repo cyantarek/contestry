@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><strong>IUBAT β</strong></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/contests/">Contests</a></li>
+            <li><a href="/users/judges/">Judges</a></li>
+            <li><a href="/ranking/">Ranking</a></li>
+        {{if .current_user.IsJudge}}
+            <li><a href="/contests/create/">Create Contest</a></li>
+        {{end}}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        {{if .current_user.IsJudge}}
+            <li><a href=""><span class="glyphicon glyphicon-user"></span> Admin</a></li>
+        {{end}}
+        {{if not .current_user}}
+            <li><a href="/auth/signup/"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
+            <li><a href="/auth/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {{end}}
+        {{if .current_user}}
+            <li><a href="/users/profile/"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+            <li><a href="/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        {{end}}
+        </ul>
+    </div>
+</nav>
+<div class="container">
+{{template "content" .}}
+</div>
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted"><strong>Developed with &hearts; by <a href="http://www.facebook.com/tarekbinhedayat">Cyan
+            Tarek</a> &hearts; Powered by <a href="https://golang.org">Go</a> and <a
+                href="https://gin-gonic.github.io/gin/">Gin</a></strong></p>
+    </div>
+</footer>
+</body>
+
+<style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #e6e6e6;
+        color: white;
+        text-align: center;
+    }
+</style>
+</html>

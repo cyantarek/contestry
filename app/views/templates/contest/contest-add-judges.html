@@ -1,0 +1,15 @@
+{{define "content"}}
+<h2>Add Judges to {{.data.contest.Name}}</h2>
+<p style="color: #ff731e; font-weight: bold;"></p>
+<form action="/contests/add-judges/" method="post">
+    <div class="form-group">
+        <label for="pwd">Add Judges</label>
+        <br>
+    {{range .data.judges}}
+        <input name="judges" type="checkbox" value="{{.ID}}"> {{.FirstName}} {{.LastName}}
+    {{end}}
+    </div>
+    <input name="contest_id" type="hidden" value="{{.data.contest.ID}}">
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
+{{end}}

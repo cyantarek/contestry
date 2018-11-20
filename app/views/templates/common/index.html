@@ -1,0 +1,53 @@
+{{define "content"}}
+
+{{if gt .data.upcomingContest.ID 0}}
+{{if eq .data.upcomingContest.Status "active"}}
+<h3 align="center">Upcoming Contest</h3>
+<h1 align="center"><a
+        href="/contests/view/{{.data.upcomingContest.Slug}}"><strong>{{.data.upcomingContest.Name}}</strong></a></h1>
+<h3 id="demo" align="center"></h3>
+{{else if eq .data.upcomingContest.Status "started"}}
+<h3 align="center">Running Contest</h3>
+<h1 align="center"><a
+        href="/contests/view/{{.data.upcomingContest.Slug}}"><strong>{{.data.upcomingContest.Name}}</strong></a></h1>
+{{end}}
+{{else}}
+{{if or .current_user.IsParticipant .current_user.IsJudge}}
+<h3 align="center">Currently No Contest</h3>
+{{else if .current_user.IsAdmin}}
+<h1 align="center"><a href="/contests/create">Create a Contest</a></h1>
+{{end}}
+{{end}}
+<h3 align="center"><img src="/static/img/icpc-photo.png" alt=""></h3>
+
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date({{.data.upcomingContest.ContestDate}}).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("demo").innerHTML = "Coming In: " + days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>
+{{end}}

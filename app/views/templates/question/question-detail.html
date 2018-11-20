@@ -1,0 +1,114 @@
+{{define "content"}}
+<div class="panel panel-default">
+    <div class="panel-heading">Question Details</div>
+<div class="panel-body">
+    <p style="color: #ff731e; font-weight: bold;"></p>
+    <h2>{{.data.question.Title}}</h2>
+    <h5>{{.data.question.Description}}</h5>
+    <hr>
+    <h3>Input Format</h3>
+    <h5>{{.data.question.InputFormat}}</h5>
+    <hr>
+    <h3>Constrains</h3>
+    <h5>{{.data.question.Constrains}}</h5>
+    <hr>
+    <h3>Output Format</h3>
+    <h5>{{.data.question.OutputFormat}}</h5>
+    <hr>
+    <h3>Sample Input</h3>
+    <h5>{{.data.question.SampleInput}}</h5>
+    <hr>
+    <h3>Sample Output</h3>
+    <h5>{{.data.question.SampleOutput}}</h5>
+    <hr>
+{{if .current_user.IsParticipant}}
+    <form action="/solutions/submit" method="post">
+        <h4>Language</h4>
+        <select name="language-name">
+            <option value="go">Go</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+        </select>
+        <hr>
+        <h4>Code</h4>
+        <br>
+        <div id="editor">package main
+
+import "fmt"
+
+func capitalize(s string) string {
+    //write your code here
+}
+
+func main() {
+    var input string
+    fmt.Scanln(&input)
+
+    result := capitalize(input)
+    fmt.Println(result)
+}
+
+        </div>
+        <input type="hidden" name="contest-id" value="{{.data.contest.ID}}">
+        <input type="hidden" name="question-id" value="{{.data.question.ID}}">
+        <input type="hidden" name="user-id" value="{{.current_user.ID}}">
+        <textarea name="code" style="display: none;"></textarea>
+        <input type="submit" class="btn btn-primary pull-right" value="Submit">
+    </form>
+    <br>
+    <hr>
+{{if .data.output}}
+    <h4>Status</h4>
+    {{if eq .data.output.Point 0.0}}
+        <h5 style="color: #ff0016; font-weight: bold">FAILED</h5>
+        <h4>Std Err</h4>
+        <h5 style="color: #ff0016; font-weight: bold">{{.data.output.Result}}</h5>
+    {{else if eq .data.output.Point -1.0}}
+    <h5 style="color: #ffce00; font-weight: bold">PENDING (Refresh after 5s)</h5>
+    {{else}}
+    <h5 style="color: #1db740; font-weight: bold">PASSED</h5>
+    {{end}}
+    <h4>Execution Time</h4>
+    <h5>{{.data.output.ExecTime}}</h5>
+{{end}}
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script>
+    var editor = ace.edit("editor");
+    var textarea = $('textarea[name="code"]');
+    var codearea = $('div[id="editor"]');
+    textarea.val(codearea.innerHTML)
+    editor.getSession().on("change", function () {
+        textarea.val(editor.getSession().getValue());
+    });
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/golang");
+    editor.resize()
+    editor.setOptions({
+        autoScrollEditorIntoView: true,
+        maxLines: 200
+    });
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("maxLines", 500);
+    document.getElementById('editor').style.fontSize = '20px';
+    editor.setTheme("https://github.com/ajaxorg/ace/tree/master/lib/ace/theme/twilight");
+</script>
+
+<style>
+    #editor {
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+{{end}}
+{{end}}

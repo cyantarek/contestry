@@ -1,0 +1,30 @@
+{{define "content"}}
+
+<h2 align="center">Contest List</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Runtime</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.contests}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/contests/view/{{$a.Slug}}">{{$a.Name}}</a></td>
+            <td>{{$a.ContestDate.Format "2006-01-02"}}</td>
+            <td>{{$a.RunningTime}} min</td>
+            <td>{{$a.Status}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}

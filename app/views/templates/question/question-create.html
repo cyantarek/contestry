@@ -1,0 +1,67 @@
+{{define "content"}}
+<h2>Set A New Problem</h2>
+<h4>Contest: {{.data.contest.Name}}</h4>
+{{if .messages}}
+{{if gt (len .messages) 0}}
+{{range .messages}}
+<p style="color: #ff731e; font-weight: bold;">{{.}}</p>
+{{end}}
+{{end}}
+{{end}}
+{{if .success}}
+<h4 style="color: #ff731e; font-weight: bold;">Registration successful. Please check your university email for
+    confirmation</h4>
+{{end}}
+<form action="/questions/create/" method="post">
+    <div class="form-group">
+        <label for="FName">Title:</label>
+        <input type="text" name="title" class="form-control" id="" placeholder="Your First Name" required>
+    </div>
+    <div class="form-group">
+        <label for="LName">Description:</label>
+        <textarea rows="8" name="description" class="form-control" id="" placeholder="Your Last Name" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="email">Input Format</label>
+        <textarea rows="5" name="input_format" class="form-control" id=""
+                  placeholder="Pick a suitable username that you love" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="email">Constrains</label>
+        <textarea rows="5" name="constrains" class="form-control" id=""
+                  placeholder="Pick a suitable username that you love" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="email">Output Format</label>
+        <textarea rows="5" name="output_format" class="form-control" id=""
+                  placeholder="Pick a suitable username that you love" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="Id">Sample Input</label>
+        <textarea rows="5" name="sample_input" class="form-control" id=""
+                  placeholder="Enter University ID, without it you can not join" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="Id">Sample Output</label>
+        <textarea rows="5" name="sample_output" class="form-control" id=""
+                  placeholder="Enter University ID, without it you can not join" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="pwd">Point</label>
+        <input type="number" name="point" class="form-control" id=""
+               placeholder="Enter password with combination of letters, numbers and special characters" required>
+    </div>
+    <div class="form-group">
+        <label for="pwd">Test Input</label>
+        <input type="text" name="input" class="form-control" id=""
+               placeholder="Enter password with combination of letters, numbers and special characters" required>
+    </div>
+    <div class="form-group">
+        <label for="pwd">Test Correct Answer</label>
+        <input type="text" name="correct-ans" class="form-control" id=""
+               placeholder="Enter password with combination of letters, numbers and special characters" required>
+    </div>
+    <input type="hidden" value="{{.data.contest.Slug}}" name="slug">
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{{end}}

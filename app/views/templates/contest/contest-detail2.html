@@ -1,0 +1,196 @@
+{{define "content"}}
+
+<h2 align="center">{{.data.contest.Name}}</h2>
+<h4 align="center">Date: {{.data.contest.ContestDate.Format "2006-01-02"}} Time: {{.data.contest.RunningTime}} min</h4>
+<h5 align="center">Status: {{.data.contest.Status}}</h5>
+
+<!---Admin view-->
+{{if .current_user.IsAdmin}}
+<h4 align="center"><a href="">
+{{if eq .data.contest.Status "active"}}
+    <a href="/contests/start/{{.data.contest.Slug}}">
+        <button>Start Contest</button>
+    </a>
+{{else if eq .data.contest.Status "started"}}
+    <a href="/contests/terminate/{{.data.contest.Slug}}">
+        <button>Terminate Contest</button>
+    </a>
+{{end}}
+</a></h4>
+<br>
+<h2 align="center">Problem Sets</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Problem setter</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.questions}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/questions/view/{{$a.Question.ID}}">{{$a.Question.Title}}</a></td>
+            <td>{{$a.User.Username}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+
+<h2 align="center">Judges</h2>
+<a href="/contests/add-judges/?contest={{.data.contest.Slug}}">
+    <button>Add Judges</button>
+</a>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Problem set</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.judges}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/users/@{{$a.Username}}">{{$a.FirstName}} {{$a.LastName}}</a></td>
+            <td>{{$a.Count}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}
+
+<!---Participant view-->
+{{if .current_user.IsParticipant}}
+{{if eq .data.contestStarted false}}
+<h2 align="center">Information will be revealed sooner</h2>
+{{else}}
+<h2 align="center">Problem Sets</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Problem setter</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.questions}}
+        <tr>
+            <td>{{$i}}</td>
+        {{if eq $.data.contest.Status "started"}}
+            <td><a href="/questions/view/{{$a.Question.ID}}">{{$a.Question.Title}}</a></td>
+        {{else}}
+            <td>{{$a.Question.Title}}</td>
+        {{end}}
+            <td>{{$a.User.Username}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}
+{{end}}
+
+{{if and .current_user.IsJudge}}
+<h2 align="center">Problem Sets</h2>
+{{if eq .data.allowed "true"}}
+<a href="/questions/create?contest={{.data.contest.Slug}}">
+    <button>Add Problem</button>
+</a>
+{{end}}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Problem setter</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.questions}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/questions/view/{{$a.Question.ID}}">{{$a.Question.Title}}</a></td>
+            <td>{{$a.User.Username}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}
+
+{{if and .current_user.IsAdmin .current_user.IsJudge}}
+<h2 align="center">Judges</h2>
+{{if .current_user.IsAdmin}}
+<a href="/contests/add-judges/?contest={{.data.contest.Slug}}">
+    <button>Add Judges</button>
+</a>
+{{end}}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Problem set</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.judges}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/">{{$a.FirstName}} {{$a.LastName}}</a></td>
+            <td>{{$a.Count}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}
+
+{{if eq .data.contest.Type "team"}}
+<h2 align="center">Teams</h2>
+{{if eq .data.alreadyJoined false}}
+<a href="/contests/teams/join/{{.data.contest.Slug}}">
+    <button>Join Contest</button>
+</a>
+{{else}}
+<p align="center" style="color: #116dca">(Your team has already joined this contest)</p>
+{{end}}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Sl</th>
+            <th>Team Name</th>
+            <th>Team Leader</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $i, $a := .data.teams}}
+        <tr>
+            <td>{{$i}}</td>
+            <td><a href="/questions/view/">{{$a.Name}} (@{{$a.Slug}})</a></td>
+            <td>{{$a.LeaderName}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+
+    </table>
+</div>
+{{end}}
+{{end}}

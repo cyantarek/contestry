@@ -1,0 +1,23 @@
+{{define "content"}}
+<div class="panel panel-default">
+  <div class="panel-heading">Profile Details</div>
+  <div class="panel-body">
+      <h3>Name: {{ .current_user.FirstName }} {{ .current_user.LastName }}</h3>
+      <hr>
+      <h3>Email: {{ .current_user.Email }}</h3>
+      <hr>
+      <h3>User Type: {{ .current_user.UserType }}</h3>
+      <hr>
+      <h3>Joined: {{ .current_user.DateCreated.Format "2006-01-02" }}</h3>
+      <hr>
+      <h3>Total Points: 0</h3>
+      <hr>
+      <h3>Total Solutions: 0</h3>
+      <hr>
+      <h3>Total Contests: 0</h3>
+      <hr>
+      <h3>Rank: 0</h3>
+      <hr>
+  </div>
+</div>
+{{end}}

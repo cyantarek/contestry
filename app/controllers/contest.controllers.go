@@ -68,6 +68,7 @@ func (h *Handler) AddJudgesToContest(c *gin.Context) {
 func (h *Handler) ContestDetail(c *gin.Context) {
 	slug := c.Param("slug")
 	var contest models.Contest
+
 	currentUser := h.SessionStore.GetSessionData(c, "user").(models.User)
 
 	h.Store.GetRaw(&contest, "select * from contests where slug = ?", slug)

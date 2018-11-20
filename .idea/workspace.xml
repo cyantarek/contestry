@@ -1,96 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/controllers/contest.controllers.go" line="161" />
+    <bookmark url="file://$PROJECT_DIR$/app/controllers/contest.controllers.go" line="162" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7046aa66-7d0e-4266-9b36-0587d6ccc90a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/dev.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/api.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/auth.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/common.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/contest.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/init.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/profiling.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/solution.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/team.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/templates.render.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/user.controllers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/gorm.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/mongo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/contest.models.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/user.models.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/api.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/auth.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/contest.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/init.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/profiling.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/user.routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/sandbox/sandbox.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/sandbox/sandbox.models.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/session-mgr/gin-session.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/session-mgr/mock-session.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/session-mgr/session_mgr.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/tests/run_tests.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/utilities/common.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/static/ace.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/static/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/static/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/static/img/icpc-photo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/static/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/common/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/contest/contest-add-judges.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/contest/contest-detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/contest/contest-detail2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/layout/nav.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/question/question-create.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/question/question-detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/user/rank-list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/user/team-create.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/templates/user/team-list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/views.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2dedd13d-389e-4573-bfa0-bbfe8ed5dc7d.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Programming_Contest_Management_Platform_x64.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Programming_Contest_Management_Platform_x86.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/a/contest_detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/a/contestlist.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/a/question_detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/a/ranking_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/handlers.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/models.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/routes.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contest/handlers.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contest/models.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contest/routes.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/db.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/middleware.controllers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/static/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/confirmation.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/auth/confirmation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/auth/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/recovery.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/auth/recovery.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/auth/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/common/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contest/contest-create.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/contest/contest-create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contest/contest-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/contest/contest-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/layout/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/templates.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/judge-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/user/judge-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/templates/user/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/runner-build" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/runner-build" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/handlers.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/models.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/routes.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/contest.controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/contest.controllers.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -178,8 +93,8 @@
       <file leaf-file-name="contest.controllers.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/contest.controllers.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="24" column="30" lean-forward="true" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+            <state relative-caret-position="275">
+              <caret line="70" selection-start-line="70" selection-end-line="70" />
             </state>
           </provider>
         </entry>
@@ -283,8 +198,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/app/controllers/auth.controllers.go" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/8405c3a0-00dd-4db9-b2a0-391e531c087c/console_2.sql" />
-        <option value="$PROJECT_DIR$/app/controllers/contest.controllers.go" />
         <option value="$PROJECT_DIR$/app/controllers/init.controllers.go" />
+        <option value="$PROJECT_DIR$/app/controllers/contest.controllers.go" />
       </list>
     </option>
   </component>
@@ -448,6 +363,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="34" width="1920" height="1046" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16595517" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32900432" />
@@ -809,8 +725,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/contest.controllers.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="24" column="30" lean-forward="true" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+        <state relative-caret-position="275">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
         </state>
       </provider>
     </entry>

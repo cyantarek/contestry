@@ -13,7 +13,8 @@ import (
 
 type ISandbox interface {
 	Prepare()
-	Run()
+	RunOnDocker()
+	RunOnLxc()
 	GetResult() string
 }
 
@@ -37,7 +38,7 @@ Types of bash commands used
 >> sh -c docker kill b245da5563 && docker rm b245da5563
  */
 
-func NewSandbox(sandboxRoot, contestID, questionID, userID, inputCode, sourceType string) *sandbox {
+func NewSandbox(sandboxRoot, contestID, questionID, userID, inputCode, sourceType, containerEngine string) ISandbox {
 	return &sandbox{
 		sandboxStoreRoot: sandboxRoot,
 		contestID:        contestID,
@@ -46,7 +47,8 @@ func NewSandbox(sandboxRoot, contestID, questionID, userID, inputCode, sourceTyp
 		outputFilename:   "out",
 		inputCode:        inputCode,
 		sourceType:       sourceType,
-		store:            db.GetGormDb("test.db", "sqlite3"),
+		store:            db.GetGormDb("contest", "mysql"),
+		containerEngine: containerEngine,
 	}
 }
 
@@ -89,17 +91,18 @@ func (s *sandbox) Prepare() {
 	}
 }
 
-func (s *sandbox) Run() {
+func (s *sandbox) RunOnDocker() {
 	start := time.Now()
 	dockerLaunchStmt := "docker run -i -d -v \"$(pwd)/"+ s.codeDir + ":/code\" sandbox:v2"
-	var dockerCmd = exec.Command("sh", "-c", " " + dockerLaunchStmt)
+	var dockerCmd = exec.Command("sh", "-c", " " + dockerLaunchStmt) //launch compiler container
 	var stdErr bytes.Buffer
 	dockerCmd.Stderr = &stdErr
+
 	out, err := dockerCmd.Output()
 	if err != nil {
-		s.result = stdErr.String()
+		s.result = stdErr.String() //set error msg to result
 	} else {
-		s.containerID = string(out)[:len(string(out))-1]
+		s.containerID = string(out)[:len(string(out))-1] //set output to result
 	}
 
 	go s.timeoutContainerCleaner(s.containerID, s.contestID, s.questionID, s.userID)
@@ -116,7 +119,6 @@ func (s *sandbox) Run() {
 	//var runCmd = exec.Command("sh", "-c", "docker exec -i " + s.containerID+ " yes " + input + " | ./code/out") ./code/out
 	var runCmd = exec.Command("sh", "-c", "docker exec -i " + s.containerID + " bash -c 'yes " + question.Input + "  | ./code/out'")
 	runCmd.Stderr = &stdErr
-
 
 	if s.sourceType == "python" {
 		out, err = compileCmd.Output()
@@ -241,9 +243,160 @@ func (s *sandbox) Run() {
 	}
 }
 
+func (s *sandbox) RunOnLxc() {
+	start := time.Now()
+	lxcLaunchStmt := "sudo lxc launch images:sandbox.v2"
+	var dockerCmd = exec.Command("sh", "-c", " " + lxcLaunchStmt) //launch compiler container
+	var stdErr bytes.Buffer
+	dockerCmd.Stderr = &stdErr
+
+	out, err := dockerCmd.Output()
+	if err != nil {
+		s.result = stdErr.String() //set error msg to result
+	} else {
+		s.containerID = string(out)[:len(string(out))-1] //set output to result
+	}
+
+	go s.timeoutContainerCleaner(s.containerID, s.contestID, s.questionID, s.userID)
+	go s.timeoutContainerCleaner(s.containerID, s.contestID, s.questionID, s.userID)
+
+	compileStmt := "docker exec -i " + s.containerID + " " + s.compileStmt
+	var compileCmd = exec.Command("sh", "-c", compileStmt)
+	compileCmd.Stderr = &stdErr
+
+	//input := "hello world"
+	var question models.Question
+	s.store.GetSingle(&question, "id = ?", s.questionID)
+
+	//var runCmd = exec.Command("sh", "-c", "docker exec -i " + s.containerID+ " yes " + input + " | ./code/out") ./code/out
+	var runCmd = exec.Command("sh", "-c", "docker exec -i " + s.containerID + " bash -c 'yes " + question.Input + "  | ./code/out'")
+	runCmd.Stderr = &stdErr
+
+	if s.sourceType == "python" {
+		out, err = compileCmd.Output()
+		if err != nil {
+			s.result = stdErr.String()
+		} else {
+			s.result = string(out)
+
+			var solution models.Solution
+			s.store.GetRaw(&solution, "select * from solutions where solutions.contest_id = ? and solutions.question_id = ? and solutions.user_id = ?", s.contestID, s.questionID, s.userID)
+			if solution.ID > 0 {
+				solution.Result = s.result[:len(s.result)-1]
+				if solution.Result == question.CorrectAns {
+					solution.Point = question.Point
+				} else {
+					solution.Point = 0.0
+				}
+				solution.ExecTime = time.Since(start).String()
+				s.store.UpdateData(&solution)
+			} else {
+				var solution models.Solution
+				solution.ContestID = s.contestID
+				solution.QuestionID = s.questionID
+				solution.UserID = s.userID
+				solution.Result = s.result[:len(s.result)-1]
+				if solution.Result == question.CorrectAns {
+					solution.Point = question.Point
+				} else {
+					solution.Point = 0.0
+				}
+				solution.ExecTime = time.Since(start).String()
+				s.store.InsertData(&solution)
+			}
+		}
+	} else {
+		_, err = compileCmd.Output()
+		if err != nil {
+			s.result = stdErr.String()
+
+			var solution models.Solution
+			s.store.GetRaw(&solution, "select * from solutions where solutions.contest_id = ? and solutions.question_id = ? and solutions.user_id = ?", s.contestID, s.questionID, s.userID)
+			if solution.ID > 0 {
+				solution.Result = s.result
+				solution.Point = 0.0
+				solution.ExecTime = time.Since(start).String()
+				s.store.UpdateData(&solution)
+			} else {
+				var solution models.Solution
+				solution.ContestID = s.contestID
+				solution.QuestionID = s.questionID
+				solution.UserID = s.userID
+				solution.Result = s.result[:len(s.result)-1]
+				solution.Point = 0.0
+				solution.ExecTime = time.Since(start).String()
+				s.store.InsertData(&solution)
+			}
+		} else {
+			out, err := runCmd.Output()
+			if err != nil {
+				s.result = stdErr.String()
+
+				var solution models.Solution
+				s.store.GetRaw(&solution, "select * from solutions where solutions.contest_id = ? and solutions.question_id = ? and solutions.user_id = ?", s.contestID, s.questionID, s.userID)
+				if solution.ID > 0 {
+					solution.Result = s.result
+					solution.Point = 0.0
+					solution.ExecTime = time.Since(start).String()
+					s.store.UpdateData(&solution)
+				} else {
+					var solution models.Solution
+					solution.ContestID = s.contestID
+					solution.QuestionID = s.questionID
+					solution.UserID = s.userID
+					solution.Result = s.result[:len(s.result)-1]
+					solution.Point = 0.0
+					solution.ExecTime = time.Since(start).String()
+					s.store.InsertData(&solution)
+				}
+			} else {
+				s.result = string(out)
+
+				var solution models.Solution
+				s.store.GetRaw(&solution, "select * from solutions where solutions.contest_id = ? and solutions.question_id = ? and solutions.user_id = ?", s.contestID, s.questionID, s.userID)
+				if solution.ID > 0 {
+					solution.Result = s.result[:len(s.result)-1]
+					if solution.Result == question.CorrectAns {
+						fmt.Println(solution.Result, question.CorrectAns)
+						solution.Point = question.Point
+					} else {
+						fmt.Println("Wrong")
+						fmt.Println(len(question.CorrectAns), len(solution.Result))
+						fmt.Println(solution.Result)
+						solution.Point = 0.0
+					}
+					solution.ExecTime = time.Since(start).String()
+					s.store.UpdateData(&solution)
+				} else {
+					var solution models.Solution
+					solution.ContestID = s.contestID
+					solution.QuestionID = s.questionID
+					solution.UserID = s.userID
+					solution.Result = s.result[:len(s.result)-1]
+					if solution.Result == question.CorrectAns {
+						solution.Point = question.Point
+					} else {
+						solution.Point = 0.0
+					}
+					solution.ExecTime = time.Since(start).String()
+					s.store.InsertData(&solution)
+				}
+			}
+		}
+	}
+
+	dockerKillStmt := "docker kill " + s.containerID + " && docker rm " + s.containerID
+	var dockerKillCmd = exec.Command("sh", "-c", " " + dockerKillStmt)
+
+	dockerKillCmd.Stderr = &stdErr
+	_, err = dockerKillCmd.Output()
+	if err != nil {
+		log.Println(stdErr.String())
+	}
+}
 
 func (s *sandbox) timeoutContainerCleaner(containerId, contestId, questionId, userId string) {
-	fmt.Println("Docker Cleaner Launched")
+	fmt.Println("Container Cleaner Launched")
 	time.Sleep(time.Second*5)
 	//after 5 seconds, if container still is alive, clean it
 	dockerKillStmt := "docker kill " + containerId + " && docker rm " + containerId
@@ -269,7 +422,7 @@ func (s *sandbox) timeoutContainerCleaner(containerId, contestId, questionId, us
 			s.store.InsertData(&solution)
 		}
 	}
-	fmt.Println("Docker Cleaner Job Finished")
+	fmt.Println("Container Cleaner Job Finished")
 }
 
 func (s *sandbox) GetResult() string {

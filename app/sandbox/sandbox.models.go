@@ -19,4 +19,5 @@ type sandbox struct {
 	executionTime    string
 	containerID      string
 	store            db.Store
+	containerEngine  string
 }

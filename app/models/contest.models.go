@@ -13,7 +13,6 @@ type Contest struct {
 	Status        string
 	QuestionLimit int
 	Type          string
-	Notes         string
 }
 
 type Question struct {
@@ -25,9 +24,10 @@ type Question struct {
 	Constrains   string
 	SampleInput  string
 	SampleOutput string
-	Input        string
-	CorrectAns   string
-	Point        float32
+	TestInput    string
+	TestOutput   string
+	TemplateCode string
+	Point        float64
 	ContestID    int
 	UserID       int
 }

@@ -4,14 +4,14 @@ import "fmt"
 
 func capitalize(s string) string {
     //write your code here
-    return "Cyan Tarek"
+    return s
 }
 
 func main() {
-    var input string
-    fmt.Scanln(&input)
+    //var input string
+    //fmt.Scanln(&input)
 
-    result := capitalize(input)
+    result := capitalize("h")
     fmt.Println(result)
 }
 

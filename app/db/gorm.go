@@ -40,6 +40,7 @@ var db *gorm.DB
 
 func GetGormDb(dbName, dbType string) Store {
 	if db != nil {
+		fmt.Println(dbName)
 		return &gormDbStore{db: db}
 	} else {
 		db = newDb(dbName, dbType)

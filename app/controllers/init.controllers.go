@@ -3,7 +3,6 @@ package controllers
 import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"../db"
-	"../session-mgr"
 	"crypto/rsa"
 )
 
@@ -12,11 +11,9 @@ import (
 //Injecting dependencies to Handler, so that we don't need to have global variables
 type Handler struct {
 	Store        db.Store
-	SessionStore session_mgr.SessionStore
-	Type         string
 	SignKey      *rsa.PrivateKey
 	VerifyKey    *rsa.PublicKey
-	ContextData  interface{}
+	ContextData  map[string]interface{}
 }
 
 /*

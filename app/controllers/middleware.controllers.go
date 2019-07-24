@@ -5,52 +5,12 @@ import (
 	"net/http"
 	"strings"
 	"github.com/dgrijalva/jwt-go"
-	"../models"
-	"github.com/mitchellh/mapstructure"
-	"fmt"
 )
-
-//Adapter or Wrapper or Decorator Pattern
-func (h *Handler) Authorize() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		loginUser := h.SessionStore.GetSessionData(c, "user")
-		if loginUser == nil {
-			c.Redirect(http.StatusFound, "/auth/login")
-			c.Abort()
-		} else {
-			h.ContextData = loginUser
-			fmt.Println(loginUser)
-			c.Next()
-		}
-	}
-}
-
-func (h *Handler) UnAuthorize() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		loginUser := h.SessionStore.GetSessionData(c, "user")
-		if loginUser != nil {
-			c.Redirect(http.StatusFound, "/")
-			c.Abort()
-		} else {
-			c.Next()
-		}
-	}
-}
-
-func (h *Handler) TypeChecker() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if len(c.Request.URL.Path) > 1 && c.Request.URL.Path[:4] == "/api" {
-			h.Type = "api"
-			c.Next()
-		} else {
-			h.Type = "template"
-			c.Next()
-		}
-	}
-}
 
 func (h *Handler) JwtValidator() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		//first check if the token is valid or invalid by querying jwt whitelist redis db
+		//if valid, then go on next
 		authHeader := c.GetHeader("Authorization")
 
 		if authHeader != "" {
@@ -68,10 +28,10 @@ func (h *Handler) JwtValidator() gin.HandlerFunc {
 				}
 
 				if tok.Valid {
-					var user models.User
-					claims := tok.Claims
-					mapstructure.Decode(claims, &user)
-					h.ContextData = user
+					h.ContextData = make(map[string]interface{})
+					h.ContextData["user_id"] = tok.Claims.(jwt.MapClaims)["user_id"]
+					h.ContextData["username"] = tok.Claims.(jwt.MapClaims)["username"]
+					h.ContextData["user_type"] = tok.Claims.(jwt.MapClaims)["user_type"]
 					c.Next()
 				} else {
 					c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Auth Token"})
@@ -85,6 +45,36 @@ func (h *Handler) JwtValidator() gin.HandlerFunc {
 			}
 		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Un-Authorized"})
+			c.Abort()
+			return
+		}
+	}
+}
+
+func (h *Handler) AdminValidator() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if h.ContextData["user_type"] != "admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "You're not allowed to do this"})
+			c.Abort()
+			return
+		}
+	}
+}
+
+func (h *Handler) JudgeValidator() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if h.ContextData["user_type"] != "judge" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "You're not allowed to do this"})
+			c.Abort()
+			return
+		}
+	}
+}
+
+func (h *Handler) ParticipantValidator() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if h.ContextData["user_type"] != "participant" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "You're not allowed to do this"})
 			c.Abort()
 			return
 		}

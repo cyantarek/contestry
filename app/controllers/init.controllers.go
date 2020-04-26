@@ -17,7 +17,7 @@ type Handler struct {
 }
 
 /*
-package controller has a struct Handler that wraps third party dependencies for handlers.
+package controller has a struct Handler that wraps third party dependencies for server.
 
 This way, dependencies can be injected to the controller function/methods rather using public
 global variable.
